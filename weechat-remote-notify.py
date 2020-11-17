@@ -86,7 +86,7 @@ def run_notify(mtype,urgency,icon,time,nick,chan,message):
     host = w.config_get_plugin('host')
 
     try:
-        if command:
+        if command and command != ('',):
             p = subprocess.Popen(command, shell=True,
                                  stdin=subprocess.PIPE,
                                  stdout=subprocess.PIPE,
@@ -111,17 +111,17 @@ def on_msg(*a):
         option = w.config_get("weechat.look.prefix_network")
         if sender == w.config_string(option):
             return w.WEECHAT_RC_OK
-        if data == "private" or highlight == "1":
 
+        if data == "private" or highlight == 1:
             #set buffer
             buffer = "me" if data == "private" else w.buffer_get_string(buffer, "short_name")
 
             #set time - displays message forever on highlight
-            if highlight == "1" and data == "private":
+            if highlight == 1 and data == "private":
                 mtype = "private_highlight"
                 icon = w.config_get_plugin('pm-icon')
                 time = w.config_get_plugin('display_time_private_highlight')
-            elif highlight == "1":
+            elif highlight == 1:
                 mtype = "highlight"
                 icon = w.config_get_plugin('icon')
                 time = w.config_get_plugin('display_time_highlight')
